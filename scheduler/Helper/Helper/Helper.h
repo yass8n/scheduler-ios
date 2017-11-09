@@ -11,5 +11,8 @@
 @interface Helper : NSObject
 + (NSString*) myDateToFormat:(NSDate *)date withFormat:(NSString*)format;
 + (NSDate*) UTCtoNSDate:(NSString*)utc;
++ (NSString*) stringFromDate:(NSDate*)date withFormat:(NSString*)format;
 + (void)showMessage:(NSString*)message withTitle:(NSString *)title actionBlock:(CompletionBlock)block;
++ (void)showNetworkIndicator;
++ (void)hideNetworkIndicator;
 @end

@@ -11,6 +11,7 @@
 #import "UIAlertController+Window.h"
 
 @implementation Helper
+static int networkIndicatorCount = 0;
 
 + (NSString*) myDateToFormat:(NSDate *)date withFormat:(NSString*)format {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -20,9 +21,15 @@
     return [formatter stringFromDate:date];
 }
 
++ (NSString*) stringFromDate:(NSDate*)date withFormat:(NSString*)format{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:format];
+    return [formatter stringFromDate:date];
+}
+
 + (NSDate*) UTCtoNSDate:(NSString*)utc {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
     [dateFormat setTimeZone:timeZone];
     return [dateFormat dateFromString:utc];
@@ -36,6 +43,23 @@
         }
     }]];
     [alert show]; //only shows if not already showing
+}
+
++ (void)showNetworkIndicator {
+    networkIndicatorCount++;
+    if (networkIndicatorCount > 0){
+        [UIApplication sharedApplication].
+        networkActivityIndicatorVisible = YES;
+    }
+}
+
++ (void)hideNetworkIndicator {
+    networkIndicatorCount--;
+    if (networkIndicatorCount <= 0){
+        networkIndicatorCount = 0;
+        [UIApplication sharedApplication].
+        networkActivityIndicatorVisible = NO;
+    }
 }
 @end
 

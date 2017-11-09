@@ -79,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				08D5CC8E1FB45B3A00930685 /* Helper */,
-				0800F4821FB458F3002A4F77 /* Controllers */,
+				0800F4821FB458F3002A4F77 /* Controller */,
 				0800F4811FB458E1002A4F77 /* Supporting Files */,
 				0800F4721FB45788002A4F77 /* Assets.xcassets */,
 				0800F4771FB45788002A4F77 /* Info.plist */,
@@ -101,14 +101,12 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0800F4821FB458F3002A4F77 /* Controllers */ = {
+		0800F4821FB458F3002A4F77 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0800F4831FB45908002A4F77 /* ViewController.h */,
-				0800F4841FB45908002A4F77 /* ViewController.m */,
-				0800F4851FB45908002A4F77 /* ViewController.xib */,
+				08D5CCA71FB46FAC00930685 /* View */,
 			);
-			name = Controllers;
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		08D5CC8E1FB45B3A00930685 /* Helper */ = {
@@ -154,6 +152,16 @@
 				08D5CCA41FB46DD400930685 /* UIAlertController+Window.m */,
 			);
 			path = UIAlertController;
+			sourceTree = "<group>";
+		};
+		08D5CCA71FB46FAC00930685 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0800F4831FB45908002A4F77 /* ViewController.h */,
+				0800F4841FB45908002A4F77 /* ViewController.m */,
+				0800F4851FB45908002A4F77 /* ViewController.xib */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		53F5EBDDEC8684EF3402D402 /* Frameworks */ = {
