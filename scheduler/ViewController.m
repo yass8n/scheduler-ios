@@ -16,16 +16,20 @@
 @property (weak, nonatomic) IBOutlet UITextView *textArea;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIView *overlay;
 @property (strong, nonatomic) NSMutableArray* tableViewData;
 @end
 
 @implementation ViewController
+
+#define password @"yaseenme"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initGesturesAndListeners];
     
     [self initViews];
+    [self presentPasswordPrompt];
     [self getAllMessages];
 }
 
@@ -39,12 +43,36 @@
 }
 
 - (void) initViews {
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.textArea.layer.borderWidth = 1.0f;
     self.textArea.layer.cornerRadius = 3;
     self.textArea.layer.borderColor = [[UIColor grayColor] CGColor];
+    
+    self.overlay = [[UIView alloc] initWithFrame:self.view.frame];
+    self.overlay.userInteractionEnabled = YES;
+    [self.overlay setBackgroundColor:[UIColor blackColor]];
+    [self.view addSubview:self.overlay];
+}
+
+- (void) presentPasswordPrompt {
+    __block UITextField *myTextField;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Message" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Check" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([myTextField.text isEqualToString:password]){
+            [self.overlay removeFromSuperview];
+        }
+    }]];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Enter text:";
+        textField.secureTextEntry = YES;
+        myTextField = textField;
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) getAllMessages {
@@ -205,5 +233,6 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 //    [self dismissKeyboard];
 }
+
 
 @end
