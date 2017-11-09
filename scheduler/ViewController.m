@@ -27,10 +27,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initGesturesAndListeners];
-    
     [self initViews];
     [self presentPasswordPrompt];
     [self getAllMessages];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    [self registerNotifs];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark register notifs
+-(void)registerNotifs{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(presentPasswordPrompt)
+                                                 name:@"ApplicationDidBecomeActive"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(presentOverlay)
+                                                 name:@"ApplicationWillResignActive"
+                                               object:nil];
 }
 
 #pragma mark init
@@ -51,14 +71,19 @@
     self.textArea.layer.borderWidth = 1.0f;
     self.textArea.layer.cornerRadius = 3;
     self.textArea.layer.borderColor = [[UIColor grayColor] CGColor];
-    
+}
+
+- (void) presentOverlay {
+    if (self.overlay != nil) {
+        [self.overlay removeFromSuperview];
+    }
     self.overlay = [[UIView alloc] initWithFrame:self.view.frame];
     self.overlay.userInteractionEnabled = YES;
     [self.overlay setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:self.overlay];
 }
-
 - (void) presentPasswordPrompt {
+    [self presentOverlay];
     __block UITextField *myTextField;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Message" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Check" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -69,7 +94,6 @@
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"Enter text:";
-        textField.secureTextEntry = YES;
         myTextField = textField;
     }];
     [self presentViewController:alert animated:YES completion:nil];
